@@ -78,6 +78,19 @@ ProtocolDiff has a real Olas Hire path:
 - Sends `mechx request --prompts ... --chain-config ... --priority-mech ... --tools ... --use-offchain`.
 - Stores raw command output as receipts.
 - Includes a 10-request evidence runner at `/dashboard/batch` and `scripts/run-batch-evidence.ts`.
+- Targets the exact live Olas sponsor track `Hire an Agent on Olas Marketplace` with UUID `7d6e542ff0674030925fbc2c7ef96210`.
+- Completed the qualifying 10-request run on Gnosis.
+- Sample request transactions:
+  - `0x414f0d62de8d073e80026204803191c4967381b0586091e14ff0c87bdf4a5e56`
+  - `0x169f6b7da0be94e8e4fd775334a72b43d6e9e7a26ba1ad51e5d62d6f4df2c415`
+  - `0xb1cd9c681ca89e9ef33a32a487dcff868f4fc581ee1de277d9b6161bb1c581cd`
+
+## Why This Fits Olas
+
+- It uses `mech-client` via `mechx` as a real product path, not a fake sponsor mention.
+- It gives Olas a concrete operator workflow: compare two protocol snapshots, hire an agent, and inspect the receipt trail.
+- It includes mech discovery, request execution, receipts, and a dedicated 10-request qualification flow.
+- It keeps the public site clean in demo mode while preserving a real local marketplace workflow for sponsor proof.
 
 ## Testing
 

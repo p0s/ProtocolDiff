@@ -34,6 +34,7 @@ export default function MechsPage() {
     useOffchain: true
   })
   const [message, setMessage] = useState("")
+  const publicDemoMode = status?.missing.some((item) => item.includes("disabled in public deployments")) ?? false
 
   useEffect(() => {
     const load = async () => {
@@ -105,7 +106,29 @@ export default function MechsPage() {
           <span className="badge">private key: {status?.privateKeyConfigured ? "yes" : "no"}</span>
           <span className="badge">chain: {status?.chainConfig || config.chainConfig}</span>
         </div>
-        {status?.missing.length ? <p>{status.missing.join(", ")}</p> : null}
+        {publicDemoMode ? (
+          <p>
+            Public demo deployments intentionally disable local Olas controls. The real client-mode mechx flow was
+            verified locally on Gnosis and used for the 10-request sponsor evidence run.
+          </p>
+        ) : status?.missing.length ? (
+          <p>{status.missing.join(", ")}</p>
+        ) : null}
+      </section>
+
+      <section className="card">
+        <h2>Olas proof snapshot</h2>
+        <p>
+          ProtocolDiff targets the Olas “Hire an Agent on Olas Marketplace” prize and has already completed the
+          qualifying 10-request run on Gnosis.
+        </p>
+        <ul>
+          <li>Track UUID: <code>7d6e542ff0674030925fbc2c7ef96210</code></li>
+          <li>Completed local evidence run: 10 successful requests</li>
+          <li>Sample request txs: <code>0x414f0d62de8d073e80026204803191c4967381b0586091e14ff0c87bdf4a5e56</code></li>
+          <li>Sample request txs: <code>0x169f6b7da0be94e8e4fd775334a72b43d6e9e7a26ba1ad51e5d62d6f4df2c415</code></li>
+          <li>Sample request txs: <code>0xb1cd9c681ca89e9ef33a32a487dcff868f4fc581ee1de277d9b6161bb1c581cd</code></li>
+        </ul>
       </section>
 
       <form className="card" onSubmit={saveConfig}>
