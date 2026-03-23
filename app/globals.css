@@ -274,6 +274,19 @@ nav a:hover {
   gap: 12px;
 }
 
+.hero-art {
+  margin-bottom: 16px;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--panel-strong) 90%, transparent 10%);
+}
+
+.hero-art img {
+  width: 100%;
+  display: block;
+}
+
 .hero-step strong {
   display: block;
   margin-top: 10px;
