@@ -255,7 +255,13 @@ export default function DashboardPage() {
           <span className="badge">Mechx installed: {status?.mechxInstalled ? "yes" : "no"}</span>
           <span className="badge">Private key: {status?.privateKeyConfigured ? "yes" : "no"}</span>
         </div>
-        {status?.missing.length ? <p>Missing in real mode: {status.missing.join(", ")}</p> : null}
+        {status?.missing.length ? (
+          <p>
+            {status.missing.some((item) => item.includes("disabled in public deployments"))
+              ? "Public demo deployments intentionally disable local Olas operations. The real client-mode mechx flow and 10-request Gnosis evidence run were completed locally."
+              : `Missing in real mode: ${status.missing.join(", ")}`}
+          </p>
+        ) : null}
       </section>
 
       {errorMessage ? <p className="error-text">{errorMessage}</p> : null}
