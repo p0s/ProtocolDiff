@@ -10,6 +10,7 @@ Protocol teams usually diff raw text manually and miss risk signals. ProtocolDif
 
 - `demo` mode runs entirely locally and always works.
 - `real` mode uses local `mechx` to send an external analysis request and stores raw receipts.
+- In production deployments, saved history/receipts and local Olas operations are disabled by default to avoid exposing local server state.
 
 ## Quick setup
 
@@ -18,6 +19,9 @@ cp .env.example .env.local
 npm install
 npm run dev
 ```
+
+For a public deployment, leave `ALLOW_PUBLIC_PERSISTENCE=false` and `ALLOW_PUBLIC_LOCAL_OLAS=false`.
+Only enable them for a private deployment where exposing server-side history or local Olas controls is acceptable.
 
 ## Real Olas setup
 

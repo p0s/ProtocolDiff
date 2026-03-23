@@ -4,6 +4,7 @@ import { OlasAdapter } from '@/lib/analysis/olas-adapter'
 import { MAX_TEXT_PREVIEW } from '@/lib/config'
 import { addAnalysis, addReceipt, saveBatchEvidenceSummary } from '@/lib/storage/local'
 import { resolveSource } from '@/lib/extraction/source'
+import { canPersistServerState } from '@/lib/security/runtime'
 
 export function makeTitle(projectName: string, aLabel: string, bLabel: string) {
   return `${projectName}: ${aLabel} ↔ ${bLabel}`
@@ -57,10 +58,12 @@ export async function runAnalysis(input: AnalyzeInput): Promise<{ analysis: Anal
   const result = await adapter.analyze(preparedInput)
 
   const receipt = buildReceiptFromAnalysis(preparedInput, result)
-  await addReceipt(receipt)
-
   const record = buildStoredRecord(preparedInput, result, receipt.id)
-  await addAnalysis(record)
+
+  if (canPersistServerState()) {
+    await addReceipt(receipt)
+    await addAnalysis(record)
+  }
 
   return { analysis: record, receipt }
 }

@@ -13,6 +13,8 @@ import { DEFAULT_CHAIN_CONFIG, MAX_SOURCE_TEXT } from '@/lib/config'
 import { getOlasConfig } from '@/lib/storage/local'
 
 const execFileAsync = promisify(execFile)
+const MECHX_BIN = process.env.MECHX_BIN || 'mechx'
+const CLIENT_MODE_ARGS = ['--client-mode']
 
 interface OlasCommandResult {
   stdout: string
@@ -68,6 +70,15 @@ async function runCommand(command: string, args: string[]): Promise<OlasCommandR
 }
 
 async function commandExists(): Promise<boolean> {
+  if (process.env.MECHX_BIN) {
+    try {
+      await fs.access(process.env.MECHX_BIN)
+      return true
+    } catch {
+      return false
+    }
+  }
+
   const probe = await runCommand(process.platform === 'win32' ? 'where' : 'which', ['mechx'])
   return probe.status === 0 && Boolean(probe.stdout.trim() || probe.stderr.trim())
 }
@@ -109,7 +120,7 @@ export class OlasAdapter implements AnalysisAdapter {
 
   async listMechs(): Promise<MechSummary[]> {
     const chainConfig = await this.getConfiguredChain()
-    const result = await runCommand('mechx', ['mech', 'list', '--chain-config', chainConfig])
+    const result = await runCommand(MECHX_BIN, [...CLIENT_MODE_ARGS, 'mech', 'list', '--chain-config', chainConfig])
 
     if (result.status !== 0) {
       return []
@@ -153,7 +164,7 @@ export class OlasAdapter implements AnalysisAdapter {
     const useOffchain = input.useOffchain ?? configured.useOffchain
 
     const prompt = buildOlasPrompt(input, diff.raw, sourceA.slice(0, 1200), sourceB.slice(0, 1200))
-    const args = ['request', '--prompts', prompt, '--chain-config', chainConfig]
+    const args = [...CLIENT_MODE_ARGS, 'request', '--prompts', prompt, '--chain-config', chainConfig]
 
     if (preferredMech) {
       args.push('--priority-mech', preferredMech)
@@ -162,14 +173,14 @@ export class OlasAdapter implements AnalysisAdapter {
       args.push('--tools', preferredTool)
     }
     if (useOffchain ?? true) {
-      args.push('--use-offchain')
+      args.push('--use-offchain', 'true')
     }
     if (process.env.MECH_PRIVATE_KEY_PATH) {
       args.push('--key', path.resolve(process.env.MECH_PRIVATE_KEY_PATH))
     }
 
-    const sanitizedCommandPreview = ['mechx', ...sanitizeCommand(args)].join(' ')
-    const result = await runCommand('mechx', args)
+    const sanitizedCommandPreview = [MECHX_BIN, ...sanitizeCommand(args)].join(' ')
+    const result = await runCommand(MECHX_BIN, args)
     const parsed = parseOlasOutput(result.stdout)
     const status = result.status === 0 && parsed ? 'success' : result.status === 0 ? 'partial' : 'failed'
     const rawOutput = (result.stdout || result.stderr || 'No output from mechx').slice(0, 32000)

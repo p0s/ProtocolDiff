@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from "next/server"
 import { compareRequestSchema } from "@/lib/validation/compare"
 import { runAnalysis } from "@/lib/analysis/workflow"
+import { canUseLocalOlas } from "@/lib/security/runtime"
 
 export async function POST(request: NextRequest) {
+  if (!canUseLocalOlas()) {
+    return NextResponse.json({ error: "Real Olas mode is disabled in public deployments." }, { status: 403 })
+  }
+
   let raw: unknown
   try {
     raw = await request.json()
