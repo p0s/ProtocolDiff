@@ -9,6 +9,7 @@ const publicOutputDir = path.join(publicSubmissionDir, "evidence")
 const projectDraftPath = path.join(submissionDir, "project-draft.json")
 const conversationLogPath = path.join(submissionDir, "conversation-log.md")
 const publicDemoUrl = "https://protocoldiff.xyz"
+const screenshotUrl = "https://raw.githubusercontent.com/p0s/ProtocolDiff/main/public/screenshots/protocoldiff_screenshot.png"
 
 const analyses = await listAnalyses(200)
 const receipts = await listReceipts(300)
@@ -65,6 +66,7 @@ const manifest = {
   project: "ProtocolDiff",
   repoURL: "https://github.com/p0s/ProtocolDiff",
   publicDemoURL: publicDemoUrl,
+  screenshotURL: screenshotUrl,
   tracks: ["Hire an Agent on Olas Marketplace"],
   generatedAt: new Date().toISOString(),
   artifactRoot: ".secrets/submission",
@@ -96,8 +98,8 @@ const draft = {
   conversationLog,
   deployedURL: existingDraft?.deployedURL ?? publicDemoUrl,
   videoURL: existingDraft?.videoURL ?? "",
-  pictures: existingDraft?.pictures ?? "",
-  coverImageURL: existingDraft?.coverImageURL ?? "",
+  pictures: screenshotUrl,
+  coverImageURL: screenshotUrl,
   submissionMetadata: {
     agentFramework: "other",
     agentFrameworkOther: "Custom Next.js + TypeScript app with direct mechx integration",
