@@ -2,8 +2,13 @@ import { NextResponse } from "next/server"
 import { BATCH_EXAMPLES } from "@/lib/config"
 import { runBatchEvidence } from "@/lib/analysis/workflow"
 import { OlasAdapter } from "@/lib/analysis/olas-adapter"
+import { canUseLocalOlas } from "@/lib/security/runtime"
 
 export async function POST() {
+  if (!canUseLocalOlas()) {
+    return NextResponse.json({ error: "Batch evidence is disabled in public deployments." }, { status: 403 })
+  }
+
   const status = await new OlasAdapter().getStatus()
   if (!status.configured) {
     return NextResponse.json({ error: "Real mode is not configured.", missing: status.missing }, { status: 409 })
