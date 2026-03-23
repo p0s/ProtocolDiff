@@ -39,6 +39,9 @@ export default function LandingPage() {
               <span />
               <span />
             </div>
+            <div className="hero-art">
+              <img src="/brand/protocoldiff-minimal.svg" alt="ProtocolDiff minimalist mark" />
+            </div>
             <div className="hero-window-grid">
               <div className="hero-step">
                 <span className="hero-step-label">A</span>

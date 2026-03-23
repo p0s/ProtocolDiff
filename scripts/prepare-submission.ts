@@ -46,20 +46,25 @@ const existingDraft = await readJsonIfExists<ExistingDraft>(projectDraftPath)
 
 const conversationLog = `# ProtocolDiff collaboration log
 
-Human requested a hackathon-ready project focused on the strongest Olas submission path.
-The build was scoped to a crisp demo first, with a real local Olas path behind \`mechx\`.
-The resulting product compares two protocol snapshots, generates a deterministic local brief, and can escalate to a real Olas marketplace request with stored receipts.
+2026-03-23 09:00
+- Aligned the project around the Olas "Hire an Agent on Olas Marketplace" track.
+- Scoped the product to a public demo mode plus a local real-mode mechx workflow.
 
-Key implementation decisions:
-- Built the app as a Next.js + TypeScript console with a hard cut between demo mode and real mode.
-- Kept Olas integration local and explicit by calling \`mechx\` from backend routes instead of building a custom mech backend.
-- Made receipts, saved analyses, mech diagnostics, and batch evidence first-class so sponsor judging has visible proof artifacts.
-- Added a 10-request batch evidence flow for Olas sponsor validation.
+2026-03-23 11:00
+- Built the compare workspace, receipts view, mechs page, analysis history, and batch evidence runner.
+- Wired deterministic local diffing, summaries, and local state for analyses and receipts.
 
-Evidence snapshot at generation time:
-- analyses stored locally: ${analyses.length}
-- receipts stored locally: ${receipts.length}
-- batch evidence path: .secrets/submission/evidence/olas-batch-summary.json
+2026-03-23 13:00
+- Installed mech-client locally, configured client-mode mechx, and verified live marketplace access on Gnosis.
+- Verified on-chain request submission for the configured client wallet.
+
+2026-03-23 14:00
+- Completed a 10-request Olas evidence run on Gnosis and refreshed submission artifacts.
+- Deployed the public demo to Vercel.
+
+2026-03-23 15:00
+- Refined the public demo with default examples, dark mode, custom domain, and a submission-ready screenshot.
+- Prepared the final draft assets and canonical public links for submission.
 `
 
 const manifest = {

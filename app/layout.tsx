@@ -6,6 +6,9 @@ export const metadata = {
   title: 'ProtocolDiff',
   description: 'Protocol change intelligence with optional Olas hiring workflow',
   metadataBase: new URL('https://protocoldiff.xyz'),
+  icons: {
+    icon: '/favicon.ico'
+  },
   alternates: {
     canonical: '/'
   },
