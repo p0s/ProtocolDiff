@@ -1,4 +1,5 @@
 import type { SourceKind } from '@/lib/types'
+import type { Receipt, AnalysisRecord } from '@/lib/types'
 
 export const DEFAULT_CHAIN_CONFIG = process.env.MECH_CHAIN_CONFIG ?? 'gnosis'
 
@@ -177,3 +178,59 @@ export const BATCH_EXAMPLES = [
 
 export const MAX_TEXT_PREVIEW = 1200
 export const MAX_SOURCE_TEXT = 3600
+
+export const PUBLIC_PROOF_RECEIPTS: Receipt[] = [
+  {
+    id: 'public-proof-1',
+    mode: 'real',
+    action: 'batch-evidence',
+    sanitizedCommandPreview: 'mechx --client-mode request ... --chain-config gnosis --tools openai-gpt-4',
+    stdout: 'Transaction submitted: https://gnosisscan.io/tx/0x414f0d62de8d073e80026204803191c4967381b0586091e14ff0c87bdf4a5e56',
+    success: true,
+    createdAt: '2026-03-23T06:08:18.862Z',
+    analysisId: 'dac06972-feef-4e38-a9aa-5fb1ef1e0ed5'
+  },
+  {
+    id: 'public-proof-2',
+    mode: 'real',
+    action: 'batch-evidence',
+    sanitizedCommandPreview: 'mechx --client-mode request ... --chain-config gnosis --tools openai-gpt-4',
+    stdout: 'Transaction submitted: https://gnosisscan.io/tx/0x169f6b7da0be94e8e4fd775334a72b43d6e9e7a26ba1ad51e5d62d6f4df2c415',
+    success: true,
+    createdAt: '2026-03-23T06:08:18.862Z',
+    analysisId: 'cca187b3-0a63-46ff-bee6-dfb59409564d'
+  },
+  {
+    id: 'public-proof-3',
+    mode: 'real',
+    action: 'batch-evidence',
+    sanitizedCommandPreview: 'mechx --client-mode request ... --chain-config gnosis --tools openai-gpt-4',
+    stdout: 'Transaction submitted: https://gnosisscan.io/tx/0xb1cd9c681ca89e9ef33a32a487dcff868f4fc581ee1de277d9b6161bb1c581cd',
+    success: true,
+    createdAt: '2026-03-23T06:08:18.862Z',
+    analysisId: '84193062-978a-4301-87da-09b98d38fa29'
+  }
+]
+
+export const PUBLIC_ANALYSIS_EXAMPLES: AnalysisRecord[] = EXAMPLES.map((example, index) => ({
+  id: `example-${index + 1}`,
+  title: `Example ${index + 1}: ${example.labelA} ↔ ${example.labelB}`,
+  mode: 'demo',
+  sourceTypeA: example.sourceTypeA,
+  sourceTypeB: example.sourceTypeB,
+  sourceLabelA: example.labelA,
+  sourceLabelB: example.labelB,
+  sourceSnapshotA: example.textA,
+  sourceSnapshotB: example.textB,
+  diffSummary: `${example.textA}\n\n${example.textB}`,
+  result: {
+    summary: 'Public demo deployment hides server-local history, so seeded examples are shown here by default.',
+    breakingChanges: ['Compare workspace can regenerate a fresh analysis instantly.'],
+    newCapabilities: ['These examples make the history view navigable on the public demo.'],
+    migrationActions: ['Open the compare workspace and run the example again for a live result.'],
+    riskScore: 3,
+    evidence: [`Example ${index + 1} is bundled for the public demo experience.`]
+  },
+  createdAt: new Date(Date.UTC(2026, 2, 20 + index, 12, 0, 0)).toISOString(),
+  receiptId: undefined
+}))

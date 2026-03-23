@@ -35,6 +35,7 @@ Design should be **modern minimalist**:
 Build **two layers**:
 1. **Demo layer** — works instantly, no Olas dependency.
 2. **Real integration layer** — uses real `mechx` requests on the user's machine when configured.
+3. **Public wallet layer** — browser wallet signing path for honest public real-mode UX without server-side key custody.
 
 The user must be able to experience both.
 
@@ -130,6 +131,8 @@ The project is complete when all of the following are true:
 - working compare workflow
 - demo mode works with no setup
 - real Olas mode works locally if `mechx` is installed and configured
+- public site clearly distinguishes demo mode from real wallet mode
+- public receipts page shows real proof receipts or tx-level sponsor evidence even when server-local storage is disabled
 - receipts are first-class
 - there is a saved history of analyses
 
@@ -139,6 +142,7 @@ The project is complete when all of the following are true:
 - app can send a real request via `mechx request`
 - app captures and stores the real response receipt
 - app supports a guided “run 10 requests” evidence flow for sponsor proof if configured
+- app has a public wallet-based real-mode plan that avoids server-side private key custody
 
 ### Engineering
 - local app runs cleanly
@@ -184,6 +188,7 @@ For the MVP, `mechx` should be treated as an external local tool invoked by the 
 ### Hosting
 - public demo on Vercel in **demo mode**
 - real Olas integration used locally on the user's MacBook
+- public product should move toward browser wallet signing for honest self-funded real-mode use
 - GitHub Pages only if a good demo still works; otherwise use Vercel
 
 ---

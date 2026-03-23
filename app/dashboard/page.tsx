@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import ResultPanel from "@/components/ResultPanel"
+import ModeSwitch, { type AppMode, getDefaultMode } from "@/components/ModeSwitch"
+import WalletModePanel from "@/components/WalletModePanel"
 import { EXAMPLES } from "@/lib/config"
 import type { AnalysisMode, AnalysisRecord, Receipt } from "@/lib/types"
 
@@ -34,6 +36,7 @@ export default function DashboardPage() {
   const [sourceValueB, setSourceValueB] = useState(defaultExample.textB || "")
   const [runtimeMode, setRuntimeMode] = useState<AnalysisMode>("demo")
   const [status, setStatus] = useState<OlasStatus | null>(null)
+  const [appMode, setAppMode] = useState<AppMode>('demo')
   const [config, setConfig] = useState<OlasConfig>({
     chainConfig: "gnosis",
     mechAddress: "",
@@ -46,6 +49,7 @@ export default function DashboardPage() {
   const [receipt, setReceipt] = useState<Receipt | undefined>()
 
   useEffect(() => {
+    setAppMode(getDefaultMode())
     const load = async () => {
       const [modeResponse, statusResponse, configResponse] = await Promise.all([
         fetch("/api/mode"),
@@ -142,7 +146,8 @@ export default function DashboardPage() {
         <span className="eyebrow">Workspace</span>
         <h1>Compare workspace</h1>
         <p>
-          Start with a seeded comparison, tweak the details, and move from local signal to Olas-backed analysis.
+          Start with a seeded comparison, tweak the details, and switch between instant demo mode and the public-safe
+          real wallet mode plan.
         </p>
       </section>
 
@@ -152,7 +157,10 @@ export default function DashboardPage() {
           <Link href="/dashboard/receipts"><button type="button" className="secondary">Receipts</button></Link>
           <Link href="/dashboard/analyses"><button type="button" className="secondary">History & examples</button></Link>
         </div>
+        <ModeSwitch value={appMode} onChange={setAppMode} />
       </section>
+
+      {appMode === 'real-wallet' ? <WalletModePanel /> : null}
 
       <section className="card">
         <h2>Seeded examples</h2>
@@ -236,15 +244,24 @@ export default function DashboardPage() {
           <button
             type="button"
             className="warn"
-            disabled={loading}
+            disabled={loading || appMode === 'real-wallet'}
             onClick={() => {
               void execute("real")
             }}
           >
-            Analyze with Olas
+            {appMode === 'real-wallet' ? 'Use wallet mode below' : 'Analyze with Olas'}
           </button>
         </div>
-        {loading ? <p className="status-line">Running analysis...</p> : <p className="status-line">Example 1 is preloaded by default for faster walkthroughs.</p>}
+        {loading ? (
+          <p className="status-line">Running analysis...</p>
+        ) : appMode === 'real-wallet' ? (
+          <p className="status-line">
+            Demo mode stays instant here. Real wallet mode is the public-safe path: connect your own wallet below and
+            prepare for self-funded Olas requests without exposing keys to the server.
+          </p>
+        ) : (
+          <p className="status-line">Example 1 is preloaded by default for faster walkthroughs.</p>
+        )}
       </form>
 
       <section className="card">

@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { Receipt } from "@/lib/types"
+import { PUBLIC_PROOF_RECEIPTS } from "@/lib/config"
 
 export default function ReceiptsPage() {
   const [receipts, setReceipts] = useState<Receipt[]>([])
@@ -16,7 +17,10 @@ export default function ReceiptsPage() {
     load()
   }, [])
 
-  const grouped = useMemo(() => receipts.filter((entry) => Boolean(entry.id)), [receipts])
+  const grouped = useMemo(
+    () => (receipts.filter((entry) => Boolean(entry.id)).length ? receipts.filter((entry) => Boolean(entry.id)) : PUBLIC_PROOF_RECEIPTS),
+    [receipts]
+  )
 
   const exportReceipt = (entry: Receipt) => {
     const blob = new Blob([JSON.stringify(entry, null, 2)], { type: "application/json" })
@@ -52,6 +56,11 @@ export default function ReceiptsPage() {
                 </div>
                 <p>{entry.createdAt}</p>
                 <p>Command: {entry.sanitizedCommandPreview}</p>
+                <p>
+                  {receipts.length === 0 && entry.mode === 'real'
+                    ? 'Public demo deployments show proof receipts from the completed Gnosis evidence run.'
+                    : null}
+                </p>
                 <pre>{entry.stdout ? entry.stdout.slice(0, 700) : "[No stdout]"}</pre>
                 <button onClick={() => exportReceipt(entry)}>Export JSON</button>
               </li>
