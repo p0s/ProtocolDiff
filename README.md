@@ -92,6 +92,12 @@ ProtocolDiff has a real Olas Hire path:
 - It includes mech discovery, request execution, receipts, and a dedicated 10-request qualification flow.
 - It keeps the public site clean in demo mode while preserving a real local marketplace workflow for sponsor proof.
 
+## On-Chain Evidence
+
+- Gnosis tx 1: [gnosisscan.io/tx/0x414f0d62de8d073e80026204803191c4967381b0586091e14ff0c87bdf4a5e56](https://gnosisscan.io/tx/0x414f0d62de8d073e80026204803191c4967381b0586091e14ff0c87bdf4a5e56)
+- Gnosis tx 2: [gnosisscan.io/tx/0x169f6b7da0be94e8e4fd775334a72b43d6e9e7a26ba1ad51e5d62d6f4df2c415](https://gnosisscan.io/tx/0x169f6b7da0be94e8e4fd775334a72b43d6e9e7a26ba1ad51e5d62d6f4df2c415)
+- Gnosis tx 3: [gnosisscan.io/tx/0xb1cd9c681ca89e9ef33a32a487dcff868f4fc581ee1de277d9b6161bb1c581cd](https://gnosisscan.io/tx/0xb1cd9c681ca89e9ef33a32a487dcff868f4fc581ee1de277d9b6161bb1c581cd)
+
 ## Testing
 
 ```bash
