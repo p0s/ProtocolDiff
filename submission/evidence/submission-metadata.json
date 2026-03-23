@@ -1,0 +1,22 @@
+{
+  "project": "ProtocolDiff",
+  "repoURL": "https://github.com/p0s/ProtocolDiff",
+  "tracks": [
+    "Hire an Agent on Olas Marketplace"
+  ],
+  "generatedAt": "2026-03-23T04:44:09.028Z",
+  "artifactRoot": ".secrets/submission",
+  "evidence": {
+    "analyses": 2,
+    "receipts": 2,
+    "batchEvidencePath": ".secrets/submission/evidence/olas-batch-summary.json",
+    "batchEvidenceMarkdownPath": ".secrets/submission/evidence/olas-batch-summary.md",
+    "conversationLogPath": ".secrets/submission/conversation-log.md"
+  },
+  "checks": {
+    "hasDemoMode": true,
+    "hasRealMode": true,
+    "hasReceiptStore": true,
+    "hasHistory": true
+  }
+}

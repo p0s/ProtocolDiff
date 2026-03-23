@@ -6,12 +6,14 @@
 .synthesis-credentials.*
 .vercel/
 .secrets/
-submission/
 synthesis_md-input/
 submissions/
+.next/
 playwright-report/
+test-results/
 playwright/.cache
 .npm
+.npm-cache/
 .local/
 coverage/
 node_modules/
