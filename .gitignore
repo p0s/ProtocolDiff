@@ -5,6 +5,7 @@
 .synthesis-credentials
 .synthesis-credentials.*
 .vercel/
+.vercel-home/
 .secrets/
 synthesis_md-input/
 submissions/
@@ -20,3 +21,4 @@ node_modules/
 tooling.md
 submission.local.json
 *.tsbuildinfo
+.vercel

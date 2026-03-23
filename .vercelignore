@@ -1,0 +1,14 @@
+.git
+.next
+.npm-cache
+.vercel-home
+.local
+.secrets
+node_modules
+test-results
+playwright-report
+synthesis_md-input
+coverage
+tooling.md
+submission/evidence/olas-batch-summary.json
+submission/evidence/olas-batch-summary.md
