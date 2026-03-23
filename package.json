@@ -1,0 +1,36 @@
+{
+  "name": "protocoldiff",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "node .next/standalone/server.js",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "verify:mech": "tsx scripts/verify-olas-mode.ts",
+    "batch:evidence": "tsx scripts/run-batch-evidence.ts",
+    "submission:prepare": "tsx scripts/prepare-submission.ts",
+    "test:unit": "vitest run",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0",
+    "diff": "^7.0.0",
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.50.1",
+    "@types/node": "^22.5.5",
+    "@types/react": "^18.3.7",
+    "@types/react-dom": "^18.3.0",
+    "playwright": "^1.50.1",
+    "tsx": "^4.20.0",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}
