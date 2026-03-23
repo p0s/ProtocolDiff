@@ -24,13 +24,14 @@ type OlasConfig = {
 }
 
 export default function DashboardPage() {
-  const [projectName, setProjectName] = useState("ProtocolDiff Analysis")
-  const [sourceLabelA, setSourceLabelA] = useState("Source A")
-  const [sourceLabelB, setSourceLabelB] = useState("Source B")
-  const [sourceTypeA, setSourceTypeA] = useState<SourceKind>("text")
-  const [sourceTypeB, setSourceTypeB] = useState<SourceKind>("text")
-  const [sourceValueA, setSourceValueA] = useState("")
-  const [sourceValueB, setSourceValueB] = useState("")
+  const defaultExample = EXAMPLES[0]
+  const [projectName, setProjectName] = useState("ProtocolDiff: API upgrade review")
+  const [sourceLabelA, setSourceLabelA] = useState(defaultExample.labelA)
+  const [sourceLabelB, setSourceLabelB] = useState(defaultExample.labelB)
+  const [sourceTypeA, setSourceTypeA] = useState<SourceKind>(defaultExample.sourceTypeA)
+  const [sourceTypeB, setSourceTypeB] = useState<SourceKind>(defaultExample.sourceTypeB)
+  const [sourceValueA, setSourceValueA] = useState(defaultExample.textA || "")
+  const [sourceValueB, setSourceValueB] = useState(defaultExample.textB || "")
   const [runtimeMode, setRuntimeMode] = useState<AnalysisMode>("demo")
   const [status, setStatus] = useState<OlasStatus | null>(null)
   const [config, setConfig] = useState<OlasConfig>({
@@ -136,16 +137,20 @@ export default function DashboardPage() {
   }
 
   return (
-    <div>
-      <section className="card">
+    <div className="stack-page">
+      <section className="page-head">
+        <span className="eyebrow">Workspace</span>
         <h1>Compare workspace</h1>
         <p>
-          Paste two protocol snapshots, run a deterministic local diff, and then optionally send the
-          structured diff to Olas.
+          Start with a seeded comparison, tweak the details, and move from local signal to Olas-backed analysis.
         </p>
+      </section>
+
+      <section className="card panel-inline">
         <div className="row">
           <Link href="/dashboard/mechs"><button type="button" className="secondary">Mech setup</button></Link>
           <Link href="/dashboard/receipts"><button type="button" className="secondary">Receipts</button></Link>
+          <Link href="/dashboard/analyses"><button type="button" className="secondary">History & examples</button></Link>
         </div>
       </section>
 
@@ -239,7 +244,7 @@ export default function DashboardPage() {
             Analyze with Olas
           </button>
         </div>
-        {loading ? <p>Running...</p> : null}
+        {loading ? <p className="status-line">Running analysis...</p> : <p className="status-line">Example 1 is preloaded by default for faster walkthroughs.</p>}
       </form>
 
       <section className="card">
@@ -253,7 +258,7 @@ export default function DashboardPage() {
         {status?.missing.length ? <p>Missing in real mode: {status.missing.join(", ")}</p> : null}
       </section>
 
-      {errorMessage ? <p style={{ color: "#b91c1c" }}>{errorMessage}</p> : null}
+      {errorMessage ? <p className="error-text">{errorMessage}</p> : null}
 
       {analysis ? <ResultPanel analysis={analysis} receipt={receipt} /> : null}
     </div>

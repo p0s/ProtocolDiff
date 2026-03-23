@@ -14,21 +14,21 @@ export default function ResultPanel({ analysis, receipt }: { analysis?: Analysis
   if (!analysis) return null
 
   return (
-    <div className="card">
+    <div className="card result-shell">
       <h2>Analysis result</h2>
-      <div>
+      <div className="row">
         <span className={`badge ${riskClass}`}>Risk {analysis.result.riskScore}/5</span>
         <span className="badge">Mode: {analysis.mode}</span>
         <span className="badge">Created: {new Date(analysis.createdAt).toLocaleString()}</span>
       </div>
       <h3>Diff summary</h3>
-      <pre>{analysis.diffSummary}</pre>
+      <pre className="panel-pre">{analysis.diffSummary}</pre>
       <h3>Source snapshots</h3>
       <section>
         <strong>{analysis.sourceLabelA}</strong>
-        <pre>{analysis.sourceSnapshotA}</pre>
+        <pre className="panel-pre">{analysis.sourceSnapshotA}</pre>
         <strong>{analysis.sourceLabelB}</strong>
-        <pre>{analysis.sourceSnapshotB}</pre>
+        <pre className="panel-pre">{analysis.sourceSnapshotB}</pre>
       </section>
       <h3>Executive summary</h3>
       <p>{analysis.result.summary}</p>
@@ -49,7 +49,7 @@ export default function ResultPanel({ analysis, receipt }: { analysis?: Analysis
           </div>
           <p><strong>Command</strong>: <code>{receipt.sanitizedCommandPreview}</code></p>
           {receipt.stderr ? <p><strong>stderr</strong>: {receipt.stderr}</p> : null}
-          <pre>{JSON.stringify(receipt, null, 2)}</pre>
+          <pre className="panel-pre">{JSON.stringify(receipt, null, 2)}</pre>
           <button
             onClick={() => {
               const blob = new Blob([JSON.stringify(receipt, null, 2)], { type: 'application/json' })
