@@ -1,0 +1,67 @@
+{
+  "total": 10,
+  "successCount": 10,
+  "failureCount": 0,
+  "records": [
+    {
+      "run": 1,
+      "analysisId": "dac06972-feef-4e38-a9aa-5fb1ef1e0ed5",
+      "label": "docs-intro-v1 vs docs-intro-v2",
+      "success": true
+    },
+    {
+      "run": 2,
+      "analysisId": "cca187b3-0a63-46ff-bee6-dfb59409564d",
+      "label": "release-notes-v1 vs release-notes-v2",
+      "success": true
+    },
+    {
+      "run": 3,
+      "analysisId": "84193062-978a-4301-87da-09b98d38fa29",
+      "label": "governance-old vs governance-new",
+      "success": true
+    },
+    {
+      "run": 4,
+      "analysisId": "5a421cb1-8f38-4c67-ad6b-432b9d1cc361",
+      "label": "api-guide-v1 vs api-guide-v2",
+      "success": true
+    },
+    {
+      "run": 5,
+      "analysisId": "6d161e3f-defc-41b9-9418-f372eb986eb5",
+      "label": "faq-v1 vs faq-v2",
+      "success": true
+    },
+    {
+      "run": 6,
+      "analysisId": "a4161377-3fe4-45ab-943b-56dfa5275612",
+      "label": "roadmap-v1 vs roadmap-v2",
+      "success": true
+    },
+    {
+      "run": 7,
+      "analysisId": "449348ab-f364-4ddf-aec7-eb26c1f92d31",
+      "label": "terms-v1 vs terms-v2",
+      "success": true
+    },
+    {
+      "run": 8,
+      "analysisId": "77f052a4-b8e1-4cce-bfd6-3c03e96ec6fa",
+      "label": "integration-v1 vs integration-v2",
+      "success": true
+    },
+    {
+      "run": 9,
+      "analysisId": "b921cc06-610d-4f28-b5ed-773b89bc37f2",
+      "label": "tokenomics-v1 vs tokenomics-v2",
+      "success": true
+    },
+    {
+      "run": 10,
+      "analysisId": "f6bafb9d-ecde-4932-91bf-dbebbf0cb634",
+      "label": "release-old vs release-new",
+      "success": true
+    }
+  ]
+}

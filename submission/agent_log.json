@@ -5,5 +5,5 @@
     "Receipts + analyses are persisted in .local/state.json",
     "Batch evidence route supports 10-request evidence flow."
   ],
-  "summary": "Analyses: 2, Receipts: 2"
+  "summary": "Analyses: 14, Receipts: 14"
 }

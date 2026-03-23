@@ -4,11 +4,11 @@
   "tracks": [
     "Hire an Agent on Olas Marketplace"
   ],
-  "generatedAt": "2026-03-23T04:44:09.028Z",
+  "generatedAt": "2026-03-23T06:08:46.069Z",
   "artifactRoot": ".secrets/submission",
   "evidence": {
-    "analyses": 2,
-    "receipts": 2,
+    "analyses": 14,
+    "receipts": 14,
     "batchEvidencePath": ".secrets/submission/evidence/olas-batch-summary.json",
     "batchEvidenceMarkdownPath": ".secrets/submission/evidence/olas-batch-summary.md",
     "conversationLogPath": ".secrets/submission/conversation-log.md"
