@@ -22,6 +22,11 @@ interface OlasCommandResult {
   status: number
 }
 
+function getRequestTimeoutMs() {
+  const raw = Number(process.env.MECHX_REQUEST_TIMEOUT_MS || 45000)
+  return Number.isFinite(raw) && raw > 0 ? raw : 45000
+}
+
 function sanitizeArg(arg: string) {
   if (arg.includes('/private/') || arg.includes('/Users/')) {
     return '[redacted-path]'
@@ -44,14 +49,15 @@ function sanitizeCommand(args: string[]) {
   })
 }
 
-async function runCommand(command: string, args: string[]): Promise<OlasCommandResult> {
+async function runCommand(command: string, args: string[], timeoutMs?: number): Promise<OlasCommandResult> {
   try {
     const { stdout, stderr } = await execFileAsync(command, args, {
       env: {
         ...process.env,
         PYTHONPATH: process.env.PYTHONPATH
       },
-      maxBuffer: 8 * 1024 * 1024
+      maxBuffer: 8 * 1024 * 1024,
+      timeout: timeoutMs
     })
     return { status: 0, stdout: String(stdout || ''), stderr: String(stderr || '') }
   } catch (error: unknown) {
@@ -59,10 +65,11 @@ async function runCommand(command: string, args: string[]): Promise<OlasCommandR
       stdout?: unknown
       stderr?: unknown
       message?: string
+      killed?: boolean
     }
 
     return {
-      status: 1,
+      status: nodeError.killed ? 124 : 1,
       stdout: String(nodeError.stdout || ''),
       stderr: String(nodeError.stderr || nodeError.message || 'Command failed')
     }
@@ -180,9 +187,15 @@ export class OlasAdapter implements AnalysisAdapter {
     }
 
     const sanitizedCommandPreview = [MECHX_BIN, ...sanitizeCommand(args)].join(' ')
-    const result = await runCommand(MECHX_BIN, args)
+    const result = await runCommand(MECHX_BIN, args, getRequestTimeoutMs())
     const parsed = parseOlasOutput(result.stdout)
-    const status = result.status === 0 && parsed ? 'success' : result.status === 0 ? 'partial' : 'failed'
+    const submittedOnChain = result.stdout.includes('Transaction submitted:')
+    const status =
+      result.status === 0 && parsed
+        ? 'success'
+        : result.status === 0 || submittedOnChain
+          ? 'partial'
+          : 'failed'
     const rawOutput = (result.stdout || result.stderr || 'No output from mechx').slice(0, 32000)
 
     return {
@@ -215,7 +228,12 @@ export class OlasAdapter implements AnalysisAdapter {
         mechAddress: preferredMech,
         tool: preferredTool,
         chainConfig,
-        errors: result.status === 0 ? [] : ['mechx execution failed']
+        errors:
+          result.status === 0
+            ? []
+            : submittedOnChain
+              ? ['mechx request submitted on-chain but did not finish delivery before timeout']
+              : ['mechx execution failed']
       }
     }
   }
