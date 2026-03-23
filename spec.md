@@ -191,6 +191,16 @@ For the MVP, `mechx` should be treated as an external local tool invoked by the 
 - public product should move toward browser wallet signing for honest self-funded real-mode use
 - GitHub Pages only if a good demo still works; otherwise use Vercel
 
+### Future real public mode
+- the next real product step after the hackathon is to replace the current public wallet beta panel with actual client-side Olas request submission
+- this should be treated as a separate post-hackathon build phase, not hacked into the MVP with server-side key custody
+
+Why:
+- the public site should never ask users to paste private keys
+- the server should never hold a shared hot wallet for arbitrary public requests
+- each user should connect and fund their own wallet, sign their own transactions, and own their own request flow
+- this is the cleanest way to turn ProtocolDiff from a judgeable demo plus local proof system into a real public product
+
 ---
 
 ## 6) Repo structure
@@ -444,6 +454,192 @@ For every real analysis:
 3. store full raw receipt
 4. parse result
 5. if parsing fails, still show raw result
+
+### 9.3 Public wallet mode roadmap
+
+This is the post-hackathon plan for true public real-mode support.
+
+#### Goal
+Allow a public user to:
+1. connect an EVM wallet in the browser
+2. select a supported chain and mech
+3. sign and submit the Olas request transaction from their own wallet
+4. wait for request delivery
+5. view the raw receipt, parsed result, and explorer links in the UI
+
+#### Product rules
+- no private key ever enters the browser app as plain text input
+- no server-managed shared sponsor wallet for arbitrary public usage
+- all public real-mode transactions are user-funded and user-signed
+- demo mode must remain available instantly for judges and first-time users
+- the UI must make the difference between demo mode and wallet mode extremely obvious
+
+#### Recommended architecture
+
+Use a split design:
+
+1. **Client-side transaction layer**
+- connect wallet using a standard wallet connector
+- prepare calldata for the Olas marketplace request transaction in the browser
+- submit the transaction via the connected wallet
+- immediately show:
+  - selected mech
+  - selected tool
+  - chain
+  - estimated cost if available
+  - submitted transaction hash
+
+2. **Read-only server helpers**
+- the backend may still help with:
+  - source extraction
+  - structured diff generation
+  - prompt construction
+  - mech discovery caching
+  - parsing returned response text into structured UI output
+- but the backend must not sign or relay public real-mode transactions
+
+3. **Receipt and result polling layer**
+- once the wallet transaction is mined, the frontend should poll for:
+  - request confirmation
+  - mech delivery event or response artifact
+  - final response payload
+- polling can be done:
+  - directly from chain RPC
+  - or through a thin backend read helper that only reads public chain state
+
+#### Required building blocks
+
+##### Wallet connection
+- support injected EVM wallets first
+- start with Gnosis as the primary supported chain
+- later expand to Base / Polygon / Optimism only after the Gnosis path is stable
+- detect:
+  - connected address
+  - current chain
+  - whether the user is on a supported chain
+- provide one-click chain switching when possible
+
+##### Transaction preparation
+- keep the existing server-side compare pipeline for:
+  - URL fetch and extraction
+  - structured diff generation
+  - prompt shaping
+- add an API route that returns a **transaction payload preview** instead of executing the request
+- that payload should include only:
+  - chain
+  - mech address
+  - tool name
+  - prompt hash or payload
+  - any required contract call parameters
+- the frontend then asks the wallet to sign/send that transaction
+
+##### Result model
+- add a new request state model for browser wallet mode:
+  - `idle`
+  - `wallet_required`
+  - `wallet_connected`
+  - `ready_to_sign`
+  - `signing`
+  - `submitted`
+  - `confirmed`
+  - `awaiting_delivery`
+  - `delivered`
+  - `delivery_timeout`
+  - `failed`
+- the public site should render these states explicitly so the user sees progress rather than a stuck spinner
+
+##### Public receipts
+- a wallet-mode receipt should contain:
+  - connected wallet address
+  - chain
+  - selected mech
+  - selected tool
+  - prompt hash or request fingerprint
+  - transaction hash
+  - explorer link
+  - delivery status
+  - raw returned output if any
+  - parsed structured result if available
+- public deployments should show these wallet receipts even if server-local persistence is disabled
+- use browser localStorage or indexed storage for wallet-mode history on the public site
+
+##### Parsing and retrieval
+- do not assume the first mined transaction means the final answer is already available
+- build a second-stage retrieval step:
+  - after tx mined, poll for mech delivery
+  - if output is available, parse it using the existing defensive parser
+  - if output is late, keep the receipt visible with a `delivery pending` state
+- the user must still be able to export a useful proof bundle even if the final parsed text is delayed
+
+#### UX plan
+
+##### Main mode switch
+The public site should present:
+- `Demo mode`
+- `Real wallet mode`
+
+With clear copy:
+- `Demo mode` = instant, no chain interaction, best for first-time usage
+- `Real wallet mode` = connect your wallet, pay for your own Olas request, and receive on-chain proof
+
+##### Real wallet panel
+The real wallet panel should show:
+- wallet connection status
+- supported chain status
+- selected mech
+- selected tool
+- request cost expectations
+- transaction hash after submission
+- receipt timeline
+
+##### Safety messaging
+- before signing, explain:
+  - the transaction is real
+  - the connected wallet will pay gas / request cost
+  - the site never receives the private key
+- after signing, explain:
+  - where to track the tx
+  - how long delivery may take
+  - whether the app is waiting for mech output or already has it
+
+#### Security requirements
+- never store private keys in app state, localStorage, or backend logs
+- never proxy wallet signatures through the server
+- never silently fall back to a server wallet
+- sanitize all public receipt displays
+- rate-limit only the read helper endpoints, not transaction signing itself
+- keep prompt generation bounded to avoid abuse and unexpectedly expensive requests
+
+#### Phase rollout
+
+##### Phase 1
+- browser wallet connect
+- supported chain detection
+- Gnosis-only path
+- transaction payload preview
+- user-signed request tx submission
+- explorer link rendering
+
+##### Phase 2
+- delivery polling and final response retrieval
+- wallet-mode receipt history in browser storage
+- exportable wallet-mode receipts
+
+##### Phase 3
+- mech/tool selection UX
+- cost estimation
+- multi-chain support
+- richer success/failure recovery
+
+##### Phase 4
+- one-click “re-run with my wallet” from public proof receipts
+- shareable public proof pages for completed wallet-mode runs
+
+#### Non-goals for the public wallet phase
+- no custodial relay
+- no private-key paste flow
+- no fake sponsor wallet masquerading as user real mode
+- no chain support expansion until one chain works extremely well
 
 ---
 
