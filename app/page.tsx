@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import ModeSwitch from '@/components/ModeSwitch'
 
 export default function LandingPage() {
   return (
@@ -16,6 +17,7 @@ export default function LandingPage() {
             <Link href="/dashboard/mechs"><button className="secondary">Configure real Olas mode</button></Link>
             <Link href="/readme"><button className="secondary">Read setup guide</button></Link>
           </div>
+          <ModeSwitch />
           <div className="metric-strip">
             <div className="metric-card">
               <span className="metric-label">Default mode</span>
@@ -23,11 +25,11 @@ export default function LandingPage() {
             </div>
             <div className="metric-card">
               <span className="metric-label">Proof path</span>
-              <strong>10 Olas receipts</strong>
+              <strong>10 Olas requests on Gnosis</strong>
             </div>
             <div className="metric-card">
-              <span className="metric-label">Deploy target</span>
-              <strong>Public demo + local real mode</strong>
+              <span className="metric-label">Public real path</span>
+              <strong>Browser wallet signing plan</strong>
             </div>
           </div>
         </div>
@@ -77,7 +79,7 @@ export default function LandingPage() {
         <article className="card feature-card">
           <h2>Modes</h2>
           <p><strong>Demo mode</strong> is always available and prefilled for fast click-through.</p>
-          <p><strong>Real mode</strong> uses local `mechx` config and keeps raw receipts first-class.</p>
+          <p><strong>Real wallet mode</strong> is the public-safe direction: users connect their own wallet, fund their own request, and keep keys off the server.</p>
         </article>
 
         <article className="card feature-card">
