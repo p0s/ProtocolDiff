@@ -7,6 +7,7 @@ ProtocolDiff is a protocol change intelligence console for comparing two snapsho
 - Public demo: `https://protocoldiff.xyz`
 - Public compare workspace: `https://protocoldiff.xyz/dashboard`
 - Public README: `https://protocoldiff.xyz/README.md`
+- Submission screenshot: `https://raw.githubusercontent.com/p0s/ProtocolDiff/main/public/screenshots/protocoldiff_screenshot.png`
 
 ## Why this is useful
 

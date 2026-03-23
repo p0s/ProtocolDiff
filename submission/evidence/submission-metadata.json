@@ -1,10 +1,12 @@
 {
   "project": "ProtocolDiff",
   "repoURL": "https://github.com/p0s/ProtocolDiff",
+  "publicDemoURL": "https://protocoldiff.xyz",
+  "screenshotURL": "https://raw.githubusercontent.com/p0s/ProtocolDiff/main/public/screenshots/protocoldiff_screenshot.png",
   "tracks": [
     "Hire an Agent on Olas Marketplace"
   ],
-  "generatedAt": "2026-03-23T06:08:46.069Z",
+  "generatedAt": "2026-03-23T06:32:38.283Z",
   "artifactRoot": ".secrets/submission",
   "evidence": {
     "analyses": 14,
