@@ -4,6 +4,8 @@ import { listAnalyses, listReceipts } from "@/lib/storage/local"
 
 const submissionDir = path.join(process.cwd(), ".secrets", "submission")
 const outputDir = path.join(submissionDir, "evidence")
+const publicSubmissionDir = path.join(process.cwd(), "submission")
+const publicOutputDir = path.join(publicSubmissionDir, "evidence")
 const projectDraftPath = path.join(submissionDir, "project-draft.json")
 const conversationLogPath = path.join(submissionDir, "conversation-log.md")
 
@@ -11,6 +13,7 @@ const analyses = await listAnalyses(200)
 const receipts = await listReceipts(300)
 
 await mkdir(outputDir, { recursive: true })
+await mkdir(publicOutputDir, { recursive: true })
 
 async function readJsonIfExists<T>(filePath: string): Promise<T | null> {
   try {
@@ -124,6 +127,16 @@ await writeFile(
   `${JSON.stringify(manifest, null, 2)}\n`
 )
 
+await writeFile(
+  path.join(publicSubmissionDir, "submission-metadata.json"),
+  `${JSON.stringify(manifest, null, 2)}\n`
+)
+
+await writeFile(
+  path.join(publicOutputDir, "submission-metadata.json"),
+  `${JSON.stringify(manifest, null, 2)}\n`
+)
+
 await writeFile(conversationLogPath, `${conversationLog}\n`)
 
 await writeFile(projectDraftPath, `${JSON.stringify(draft, null, 2)}\n`)
@@ -138,6 +151,23 @@ await writeFile(
         "Receipts + analyses are persisted in .local/state.json",
         "Batch evidence route supports 10-request evidence flow.",
         "Private submission artifacts are stored under .secrets/submission."
+      ],
+      summary: `Analyses: ${analyses.length}, Receipts: ${receipts.length}`
+    },
+    null,
+    2
+  )}\n`
+)
+
+await writeFile(
+  path.join(publicSubmissionDir, "agent_log.json"),
+  `${JSON.stringify(
+    {
+      notes: [
+        "Demo flow works without Olas setup.",
+        "Real mode uses mechx command execution with source diff payload.",
+        "Receipts + analyses are persisted in .local/state.json",
+        "Batch evidence route supports 10-request evidence flow."
       ],
       summary: `Analyses: ${analyses.length}, Receipts: ${receipts.length}`
     },
