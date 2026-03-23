@@ -8,6 +8,7 @@ const publicSubmissionDir = path.join(process.cwd(), "submission")
 const publicOutputDir = path.join(publicSubmissionDir, "evidence")
 const projectDraftPath = path.join(submissionDir, "project-draft.json")
 const conversationLogPath = path.join(submissionDir, "conversation-log.md")
+const publicDemoUrl = "https://protocoldiff.xyz"
 
 const analyses = await listAnalyses(200)
 const receipts = await listReceipts(300)
@@ -63,6 +64,7 @@ Evidence snapshot at generation time:
 const manifest = {
   project: "ProtocolDiff",
   repoURL: "https://github.com/p0s/ProtocolDiff",
+  publicDemoURL: publicDemoUrl,
   tracks: ["Hire an Agent on Olas Marketplace"],
   generatedAt: new Date().toISOString(),
   artifactRoot: ".secrets/submission",
@@ -92,7 +94,7 @@ const draft = {
   trackUUIDs: existingDraft?.trackUUIDs ?? ["REPLACE_WITH_OLAS_TRACK_UUID"],
   conversationLogPath: ".secrets/submission/conversation-log.md",
   conversationLog,
-  deployedURL: existingDraft?.deployedURL ?? "",
+  deployedURL: existingDraft?.deployedURL ?? publicDemoUrl,
   videoURL: existingDraft?.videoURL ?? "",
   pictures: existingDraft?.pictures ?? "",
   coverImageURL: existingDraft?.coverImageURL ?? "",
@@ -147,6 +149,7 @@ await writeFile(
     {
       notes: [
         "Demo flow works without Olas setup.",
+        `Public demo is deployed at ${publicDemoUrl}.`,
         "Real mode uses mechx command execution with source diff payload.",
         "Receipts + analyses are persisted in .local/state.json",
         "Batch evidence route supports 10-request evidence flow.",
@@ -165,6 +168,7 @@ await writeFile(
     {
       notes: [
         "Demo flow works without Olas setup.",
+        `Public demo is deployed at ${publicDemoUrl}.`,
         "Real mode uses mechx command execution with source diff payload.",
         "Receipts + analyses are persisted in .local/state.json",
         "Batch evidence route supports 10-request evidence flow."

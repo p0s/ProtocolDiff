@@ -4,7 +4,17 @@ import ThemeToggle from '@/components/ThemeToggle'
 
 export const metadata = {
   title: 'ProtocolDiff',
-  description: 'Protocol change intelligence with optional Olas hiring workflow'
+  description: 'Protocol change intelligence with optional Olas hiring workflow',
+  metadataBase: new URL('https://protocoldiff.xyz'),
+  alternates: {
+    canonical: '/'
+  },
+  openGraph: {
+    title: 'ProtocolDiff',
+    description: 'Protocol change intelligence with optional Olas hiring workflow',
+    url: 'https://protocoldiff.xyz',
+    siteName: 'ProtocolDiff'
+  }
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

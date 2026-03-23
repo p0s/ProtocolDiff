@@ -1,6 +1,7 @@
 {
   "notes": [
     "Demo flow works without Olas setup.",
+    "Public demo is deployed at https://protocoldiff.xyz.",
     "Real mode uses mechx command execution with source diff payload.",
     "Receipts + analyses are persisted in .local/state.json",
     "Batch evidence route supports 10-request evidence flow."

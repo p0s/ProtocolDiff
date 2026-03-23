@@ -1,4 +1,4 @@
-1. Open the landing page and explain the demo vs real Olas split.
+1. Open `https://protocoldiff.xyz` and explain the demo vs real Olas split.
 2. Go to `/dashboard`, load a seeded example, and run demo analysis.
 3. Show the structured diff, summary, risk score, and receipt panel.
 4. Open `/dashboard/receipts` to show stored execution receipts.
