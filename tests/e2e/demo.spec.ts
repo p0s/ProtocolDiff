@@ -1,16 +1,32 @@
 import { test, expect } from '@playwright/test'
 
-test('demo comparison flow', async ({ page }) => {
+test('landing and readme flow', async ({ page }) => {
   await page.goto('/')
-  await page.getByRole('link', { name: 'Compare' }).first().click()
+  await expect(page.getByRole('heading', { name: 'ProtocolDiff' })).toBeVisible()
+  await page.getByRole('link', { name: 'Read setup guide' }).click()
+  await expect(page.getByRole('heading', { name: 'README' })).toBeVisible()
+})
 
-  await page.getByRole('textbox', { name: 'Project label' }).fill('Demo ProtocolDiff')
-  await page.getByRole('textbox', { name: 'Source A label' }).fill('A')
-  await page.getByRole('textbox', { name: 'Source A' }).fill('A has x and y')
-  await page.getByRole('textbox', { name: 'Source B label' }).fill('B')
-  await page.getByRole('textbox', { name: 'Source B' }).fill('B has x and z')
+test('demo comparison flow', async ({ page }) => {
+  await page.goto('/dashboard')
+
+  await expect(page.getByRole('textbox', { name: 'Project label' })).toHaveValue('ProtocolDiff: API upgrade review')
   await page.getByRole('button', { name: 'Analyze with demo mode' }).click()
 
   await expect(page.getByText('Analysis result')).toBeVisible({ timeout: 15000 })
   await expect(page.getByText('Diff summary')).toBeVisible()
+})
+
+test('history, receipts, mechs, and batch pages render', async ({ page }) => {
+  await page.goto('/dashboard/analyses')
+  await expect(page.getByRole('heading', { name: 'Analysis history' })).toBeVisible()
+
+  await page.goto('/dashboard/receipts')
+  await expect(page.getByRole('heading', { name: 'Receipts' })).toBeVisible()
+
+  await page.goto('/dashboard/mechs')
+  await expect(page.getByRole('heading', { name: /Mechs & Olas setup/i })).toBeVisible()
+
+  await page.goto('/dashboard/batch')
+  await expect(page.getByRole('heading', { name: /Batch evidence runner/i })).toBeVisible()
 })
