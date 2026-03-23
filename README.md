@@ -2,6 +2,12 @@
 
 ProtocolDiff is a protocol change intelligence console for comparing two snapshots (documents, governance proposals, release notes, or web pages) and producing a practical change brief.
 
+## Live demo
+
+- Public demo: `https://protocoldiff.xyz`
+- Public compare workspace: `https://protocoldiff.xyz/dashboard`
+- Public README: `https://protocoldiff.xyz/README.md`
+
 ## Why this is useful
 
 Protocol teams usually diff raw text manually and miss risk signals. ProtocolDiff gives a deterministic local baseline and then hires Olas marketplace agents for deeper interpretation.
