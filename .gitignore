@@ -17,6 +17,12 @@ playwright/.cache
 .npm-cache/
 .local/
 coverage/
+dist/
+build/
+out/
+logs/
+*.log
+.cache/
 node_modules/
 tooling.md
 submission.local.json
