@@ -2,6 +2,6 @@
   "agent": {
     "name": "ProtocolDiff",
     "framework": "Next.js",
-    "notes": "Hackathon MVP with demo mode and local mechx-backed real mode"
+    "notes": "Demo-first product with local mechx-backed real mode"
   }
 }
