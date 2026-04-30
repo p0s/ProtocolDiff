@@ -1,4 +1,4 @@
-# spec.md — ProtocolDiff (Olas)
+# SPEC.md - ProtocolDiff (Olas)
 
 ## 0) Read this first
 
