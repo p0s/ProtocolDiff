@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { compareRequestSchema } from "@/lib/validation/compare"
 import { OlasAdapter } from "@/lib/analysis/olas-adapter"
 import { runAnalysis } from "@/lib/analysis/workflow"
+import { canUseLocalOlas } from "@/lib/security/runtime"
 import { z } from "zod"
 
 export async function POST(request: NextRequest) {
@@ -20,6 +21,10 @@ export async function POST(request: NextRequest) {
   }
 
   if (parsed.mode === "real") {
+    if (!canUseLocalOlas()) {
+      return NextResponse.json({ error: "Real Olas mode is disabled in public deployments." }, { status: 403 })
+    }
+
     const status = await new OlasAdapter().getStatus()
     if (!status.configured) {
       return NextResponse.json(
